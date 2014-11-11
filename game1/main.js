@@ -90,7 +90,7 @@ GameState.prototype.update = function() {
   if(onTheGround) this.canDoubleJump = true;
 
   if(this.input.keyboard.justPressed(Phaser.Keyboard.UP, 5)) {
-    this.canVariableJump = true;
+    if(this.canDoubleJump) this.canVariableJump = true;
 
     if(this.canDoubleJump || onTheGround) {
       if(!onTheGround) this.canDoubleJump = false;
