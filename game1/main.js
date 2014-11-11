@@ -5,6 +5,8 @@ var GameState = function(game) {
 GameState.prototype.preload = function() {
   this.game.load.image('player', 'player.png');
   this.game.load.image('ground', 'ground.png');
+
+  game.load.atlasJSONHash('bot', 'running_bot.png', 'running_bot.json');
 };
 
 // setup
@@ -20,9 +22,14 @@ GameState.prototype.create = function() {
   this.JUMP_SPEED = -700; // pixels/second (negative y is up)
 
   // creates player sprite
-  this.player = this.game.add.sprite(this.game.width / 2, this.game.height - 64, 'player');
+  this.player = this.game.add.sprite(this.game.width / 2, this.game.height - 128, 'bot');
   // Enable physics on player
   this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+
+  // setup for sprites
+  this.player.animations.add('run');
+  this.player.animations.play('run', 15, true);
+  this.player.anchor.setTo(.5, 1); //so it flips around its middle
 
   // makes player colllide with the world bondaries
   this.player.body.collideWorldBounds = true;
@@ -49,6 +56,9 @@ GameState.prototype.create = function() {
     Phaser.Keyboard.UP,
     Phaser.Keyboard.DOWN
   ]);
+
+  game.camera.follow(this.player);
+  console.log(game.world.centerX);
 
   // create some ground
   this.ground = this.game.add.group();
@@ -79,8 +89,11 @@ GameState.prototype.update = function() {
 
   if(this.leftInputIsActive()) {
     this.player.body.acceleration.x = -this.ACCELERATION;
+    this.player.scale.x = 1; //flipped
   } else if (this.rightInputIsActive()) {
     this.player.body.acceleration.x = this.ACCELERATION;
+    this.player.scale.x = -1; //facing default direction
+    // this.player.animations.stop('run')
   } else {
     this.player.body.acceleration.x = 0;
   }
