@@ -22,7 +22,7 @@ GameState.prototype.create = function() {
   this.JUMP_SPEED = -400; // pixels/second (negative y is up)
 
   // bounds of the stage, so camera can work
-  this.game.world.setBounds(0, 0, 1920, 1920);
+  this.game.world.setBounds(0, 0, 5000, 1900);
 
   // creates player sprite
   this.player = this.game.add.sprite(this.game.width / 2, this.game.height - 128, 'bot');
@@ -145,5 +145,5 @@ GameState.prototype.rightInputIsActive = function() {
   return isActive;
 };
 
-var game = new Phaser.Game(848, 450, Phaser.AUTO, 'body', GameState);
+var game = new Phaser.Game(1136, 640, Phaser.AUTO, 'body', GameState);
 // game.state.add('game', GameState, true);
