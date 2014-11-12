@@ -24171,19 +24171,10 @@ Phaser.Game = function (width, height, renderer, parent, state, transparent, ant
         return _this.boot();
     };
 
-    if (document.readyState === 'complete' || document.readyState === 'interactive')
-    {
-        window.setTimeout(this._onBoot, 0);
-    }
-    else if(typeof window.cordova !== "undefined")
-    {
-        document.addEventListener('deviceready', this._onBoot, false);
-    }
-    else
-    {
+
         document.addEventListener('DOMContentLoaded', this._onBoot, false);
         window.addEventListener('load', this._onBoot, false);
-    }
+
 
     return this;
 
