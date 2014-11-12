@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+
+  <script src="../phaser.js"></script>
+  <script>
+    var GameState = function(game) {
+    };
+
+    // load images
+    GameState.prototype.preload = function() {
+
+    };
+
+    // setup
+    GameState.prototype.create = function() {
+      this.game.stage.backgroundColor = 0x4488cc;
+    };
+
+    // update method called every frame
+    GameState.prototype.update = function() {
+
+    };
+
+    var game = new Phaser.Game(1136, 640, Phaser.AUTO, 'body', GameState);
+    // game.state.add('game', GameState, true);
+  </script>
+</body>
+</html>
