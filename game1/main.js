@@ -6,6 +6,8 @@ GameState.prototype.preload = function() {
   this.game.load.image('player', 'player.png');
   this.game.load.image('ground', 'ground.png');
 
+  this.game.load.audio('hit', 'hit.mp3');
+
   game.load.atlasJSONHash('bot', 'running_bot.png', 'running_bot.json');
 };
 
@@ -13,6 +15,8 @@ GameState.prototype.preload = function() {
 GameState.prototype.create = function() {
   // background
   this.game.stage.backgroundColor = 0x4488cc;
+
+  this.hitSound = this.game.add.audio('hit');
 
   // define movment constants
   this.MAX_SPEED = 500; // pixels/second
@@ -92,9 +96,11 @@ GameState.prototype.update = function() {
   this.game.physics.arcade.collide(this.player, this.ground);
 
   if(this.leftInputIsActive()) {
+    this.hitSound.play();
     this.player.body.acceleration.x = -this.ACCELERATION;
     this.player.scale.x = 1; //flipped
   } else if (this.rightInputIsActive()) {
+    this.hitSound.play();
     this.player.body.acceleration.x = this.ACCELERATION;
     this.player.scale.x = -1; //facing default direction
     // this.player.animations.stop('run')
