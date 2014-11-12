@@ -19,10 +19,14 @@ GameState.prototype.create = function() {
   this.ACCELERATION = 1500; // pixels/second
   this.DRAG = 1500; // pixels/second
   this.GRAVITY = 2600; // pixels/second
-  this.JUMP_SPEED = -700; // pixels/second (negative y is up)
+  this.JUMP_SPEED = -400; // pixels/second (negative y is up)
+
+  // bounds of the stage, so camera can work
+  this.game.world.setBounds(0, 0, 1920, 1920);
 
   // creates player sprite
   this.player = this.game.add.sprite(this.game.width / 2, this.game.height - 128, 'bot');
+
   // Enable physics on player
   this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
@@ -32,7 +36,7 @@ GameState.prototype.create = function() {
   this.player.anchor.setTo(.5, 1); //so it flips around its middle
 
   // makes player colllide with the world bondaries
-  this.player.body.collideWorldBounds = true;
+  // this.player.body.collideWorldBounds = true;
 
   // set player max movment speed
   this.player.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED * 10); //x, y
@@ -62,7 +66,7 @@ GameState.prototype.create = function() {
 
   // create some ground
   this.ground = this.game.add.group();
-  for(var x = 0; x < this.game.width; x += 32) {
+  for(var x = 0; x < 2000; x += 64) {
     // add the ground blocks, enable physcs, make immovable
     var groundBlock = this.game.add.sprite(x, this.game.height - 32, 'ground');
     this.game.physics.enable(groundBlock, Phaser.Physics.ARCADE);
@@ -112,11 +116,11 @@ GameState.prototype.update = function() {
     }
   }
 
-  if(this.canVariableJump && this.input.keyboard.justPressed(Phaser.Keyboard.UP, 150)) {
+  if(this.canVariableJump && this.input.keyboard.justPressed(Phaser.Keyboard.UP, 300)) {
     this.player.body.velocity.y = this.JUMP_SPEED;
   }
 
-  if(!this.input.keyboard.justPressed(Phaser.Keyboard.UP, 150)) {
+  if(!this.input.keyboard.justPressed(Phaser.Keyboard.UP, 300)) {
     this.canVariableJump = false;
   }
 };
