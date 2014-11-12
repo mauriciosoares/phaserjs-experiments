@@ -96,11 +96,11 @@ GameState.prototype.update = function() {
   this.game.physics.arcade.collide(this.player, this.ground);
 
   if(this.leftInputIsActive()) {
-    this.hitSound.play();
+    // this.hitSound.play();
     this.player.body.acceleration.x = -this.ACCELERATION;
     this.player.scale.x = 1; //flipped
   } else if (this.rightInputIsActive()) {
-    this.hitSound.play();
+    // this.hitSound.play();
     this.player.body.acceleration.x = this.ACCELERATION;
     this.player.scale.x = -1; //facing default direction
     // this.player.animations.stop('run')
