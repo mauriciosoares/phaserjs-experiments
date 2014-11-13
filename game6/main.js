@@ -58,8 +58,6 @@ GameState.prototype.update = function() {
   // keeps the ship on screen
   if(this.ship.x > this.game.width) this.ship.x = 0;
   if(this.ship.x < 0) this.ship.x = this.game.width;
-  if(this.ship.y > this.game.height) this.ship.y = 0;
-  if(this.ship.y < 0) this.ship.y = this.game.height;
 
   // collide shipe with ground
   this.game.physics.arcade.collide(this.ship, this.ground);
