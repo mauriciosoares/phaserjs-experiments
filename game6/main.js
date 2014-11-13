@@ -4,6 +4,7 @@ var GameState = function(game) {
 GameState.prototype.preload = function() {
   // loads sprite for ship
   this.game.load.spritesheet('ship', 'ship.png', 32, 32);
+  this.game.load.image('ground', 'ground.png');
 };
 
 GameState.prototype.create = function() {
@@ -12,6 +13,8 @@ GameState.prototype.create = function() {
   this.ROTATION_SPEED = 180;
   this.ACCELERATION = 200;
   this.MAX_SPEED = 250;
+  this.DRAG = 50;
+  this.GRAVITY = 100;
 
   // adds ship to stage
   this.ship = this.game.add.sprite(this.game.width / 2, this.game.height /2, 'ship');
@@ -24,6 +27,14 @@ GameState.prototype.create = function() {
   // set max velocity
   this.ship.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED);
 
+  // sets drag to ship, slows down when not accelerating
+  this.ship.body.drag.setTo(this.DRAG, this.DRAG);
+
+  this.physics.arcade.gravity.y = this.GRAVITY;
+
+  // make ship bounce
+  this.ship.body.bounce.setTo(0.25, 0.25);
+
   // capture events to prevent default browser action
   this.game.input.keyboard.addKeyCapture([
     Phaser.Keyboard.LEFT,
@@ -31,6 +42,15 @@ GameState.prototype.create = function() {
     Phaser.Keyboard.UP,
     Phaser.Keyboard.DOWN
   ]);
+
+  this.ground = this.game.add.group();
+  for(var x = 0; x < this.game.width; x += 32) {
+    var groundBlock = this.game.add.sprite(x, this.game.height - 32, 'ground');
+    this.game.physics.enable(groundBlock, Phaser.Physics.ARCADE);
+    groundBlock.body.immovable = true;
+    groundBlock.body.allowGravity = false;
+    this.ground.add(groundBlock);
+  }
 };
 
 // where the magic happens
@@ -40,6 +60,9 @@ GameState.prototype.update = function() {
   if(this.ship.x < 0) this.ship.x = this.game.width;
   if(this.ship.y > this.game.height) this.ship.y = 0;
   if(this.ship.y < 0) this.ship.y = this.game.height;
+
+  // collide shipe with ground
+  this.game.physics.arcade.collide(this.ship, this.ground);
 
   if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
     this.ship.body.angularVelocity = -this.ROTATION_SPEED;
