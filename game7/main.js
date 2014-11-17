@@ -4,6 +4,7 @@ var GameState = function(game) {
 
 GameState.prototype.preload = function() {
   this.game.load.image('player', '');
+  this.game.load.image('flag', '');
 };
 
 // setup
@@ -17,6 +18,16 @@ GameState.prototype.create = function() {
       new Follower(this.game, this.game.width / 2 + i * 32, this.game.height / 2, f || this.game.input)
     );
   }
+
+  // creates flag
+  var flag = this.game.add.sprite(50, 50, 'flag');
+  this.game.add.tween(flag)
+    .to({ x: this.game.width - 50, y: 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
+    .to({ x: this.game.width - 50, y: this.game.height - 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
+    .to({ x: 50, y: this.game.height - 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
+    .to({ x: 50, y: 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
+    .start()
+    .loop();
 
   // simulate pointer click/tap to center
   this.game.input.x = this.game.width / 2;
