@@ -11,23 +11,29 @@ GameState.prototype.preload = function() {
 GameState.prototype.create = function() {
   this.game.stage.backgroundColor = 0x4488cc;
 
+  // creates flag
+  var flag = this.game.add.sprite(50, 50, 'flag');
+  this.game.add.tween(flag)
+    .to({ x: this.game.width - 50, y: 50 }, 2000, Phaser.Easing.Sinusoidal.InOut)
+    .to({ x: this.game.width - 50, y: this.game.height - 50 }, 1200, Phaser.Easing.Sinusoidal.InOut)
+    .to({ x: 50, y: this.game.height - 50 }, 2000, Phaser.Easing.Sinusoidal.InOut)
+    .to({ x: 50, y: 50 }, 1200, Phaser.Easing.Sinusoidal.InOut)
+    .start()
+    .loop();
+
+
   // create a follower
   var NUMBER_OF_FOLLOWERS = 10;
   for(var i = 0; i < NUMBER_OF_FOLLOWERS; i += 1) {
     var f = this.game.add.existing(
       new Follower(this.game, this.game.width / 2 + i * 32, this.game.height / 2, f || this.game.input)
     );
+
+    var f2 = this.game.add.existing(
+      new Follower(this.game, this.game.width / 2 + i * 32, this.game.height / 2, f2 || flag)
+    );
   }
 
-  // creates flag
-  var flag = this.game.add.sprite(50, 50, 'flag');
-  this.game.add.tween(flag)
-    .to({ x: this.game.width - 50, y: 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
-    .to({ x: this.game.width - 50, y: this.game.height - 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
-    .to({ x: 50, y: this.game.height - 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
-    .to({ x: 50, y: 50 }, 500, Phaser.Easing.Sinusoidal.InOut)
-    .start()
-    .loop();
 
   // simulate pointer click/tap to center
   this.game.input.x = this.game.width / 2;
